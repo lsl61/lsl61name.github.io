@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>猜数字游戏</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 50px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .tips { color: #666; margin: 20px 0; }
+        input { padding: 10px; width: 200px; margin-right: 10px; }
+        button { padding: 10px 20px; background: #4a8bf5; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>猜数字游戏</h1>
+        <p>我已想好了1-100之间的数字，开始猜吧！</p>
+        <input type="number" id="guessInput" placeholder="输入数字">
+        <button onclick="checkGuess()">提交</button>
+        <p class="tips" id="tips"></p>
+        <button onclick="restartGame()" style="display:none;">重新开始</button>
+    </div>
+
+    <script>
+        let answer = Math.floor(Math.random() * 100) + 1;
+        const tips = document.getElementById('tips');
+        const restartBtn = document.querySelector('button[onclick="restartGame()"]');
+
+        function checkGuess() {
+            const guess = parseInt(document.getElementById('guessInput').value);
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                tips.textContent = "请输入1-100的有效数字！";
+                return;
+            }
+            if (guess === answer) {
+                tips.textContent = `恭喜猜对！答案是${answer}🎉`;
+                restartBtn.style.display = "inline-block";
+                document.getElementById('guessInput').disabled = true;
+            } else if (guess > answer) {
+                tips.textContent = "猜大了，再试试！";
+            } else {
+                tips.textContent = "猜小了，再试试！";
+            }
+        }
+
+        function restartGame() {
+            answer = Math.floor(Math.random() * 100) + 1;
+            tips.textContent = "";
+            restartBtn.style.display = "none";
+            document.getElementById('guessInput').disabled = false;
+            document.getElementById('guessInput').value = "";
+        }
+    </script>
+</body>
+</html>
